@@ -53,23 +53,7 @@ public class AlunoController extends Controller<Aluno> {
 		return JPAFactory.getEntityManager();
 	}
 	
-	@Override
-	public void insert(ActionEvent actionEvent) {
-		try {
-			em = getEntityManager();
-			em.getTransaction().begin();
-			validarEntidade();
-			
-			em.merge(getEntity()); // produto
-			em.merge(new Aluno());
-			
-			em.getTransaction().commit();
-			clean(actionEvent);
-			Util.infoMessage(Config.INSERT_SUCCESS_MSG);
-		} catch (ValidationException e) {
-			em.getTransaction().rollback();
-			Util.showMessagesWarning(e.getListMessages());
-		}
+	public void imprimir(ActionEvent actionEvent) {
 	}
 	
 	

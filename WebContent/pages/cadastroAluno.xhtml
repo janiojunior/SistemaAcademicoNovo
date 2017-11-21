@@ -88,6 +88,12 @@
 							styleClass="m-button"
 							actionListener="#{alunoController.clean}" process="panel"
 							update="form" />
+							
+						<p:commandButton value="Imprimir" icon=""
+							styleClass="m-button"
+							actionListener="#{alunoController.imprimir}" process="panel"
+							update="form" />
+							
 
 
 						<p:separator />
@@ -97,9 +103,7 @@
 							<f:facet name="header" >Lista de Alunos</f:facet>
 							<p:column>
 								<f:facet name="header">Id</f:facet>
-								<h:outputText value="#{objeto.id}" >
-									<f:convertNumber pattern="####-##"/>
-								</h:outputText>
+								<h:outputText value="#{objeto.id}" />
 							</p:column>
 							<p:column>
 								<f:facet name="header">Matricula</f:facet>
@@ -115,7 +119,9 @@
 							</p:column>
 							<p:column>
 								<f:facet name="header">Data de Nascimento</f:facet>
-								<h:outputText value="#{objeto.dataNascimento}" />
+								<h:outputText value="#{objeto.dataNascimento}">
+									<f:convertDateTime pattern="dd/MM/yyyy" locale="pt_BR" timeZone="America/Araguaina"/>
+								</h:outputText>
 							</p:column>		
 							<p:column>
 								<f:facet name="header">Mensalidade</f:facet>
