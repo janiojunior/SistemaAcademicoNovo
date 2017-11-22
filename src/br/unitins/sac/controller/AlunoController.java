@@ -7,10 +7,6 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.event.ActionEvent;
 import javax.persistence.EntityManager;
 
-import br.unitins.frame.application.ApplicationException;
-import br.unitins.frame.application.Config;
-import br.unitins.frame.application.Util;
-import br.unitins.frame.application.ValidationException;
 import br.unitins.frame.controller.Controller;
 import br.unitins.frame.validation.Validation;
 import br.unitins.sac.factory.JPAFactory;
@@ -18,6 +14,7 @@ import br.unitins.sac.model.Aluno;
 import br.unitins.sac.model.Cidade;
 import br.unitins.sac.repository.AlunoRepository;
 import br.unitins.sac.repository.CidadeRepository;
+import br.unitins.sac.util.Report;
 import br.unitins.sac.validation.AlunoValidation;
 
 @ManagedBean
@@ -26,7 +23,14 @@ public class AlunoController extends Controller<Aluno> {
 
 	private List<Cidade> listaCidade;
 	private List<Aluno> listaAluno;
-
+	private Report relatorio;
+	
+	public Report getRelatorio() {
+		if (relatorio == null) 
+			relatorio = new Report("jdbc/web2", "reports", "AlunoReport");
+		return relatorio;
+	}
+	
 	@Override
 	public Aluno getEntity() {
 		if (entity == null) {
@@ -51,9 +55,6 @@ public class AlunoController extends Controller<Aluno> {
 	@Override
 	protected EntityManager getEntityManager() {
 		return JPAFactory.getEntityManager();
-	}
-	
-	public void imprimir(ActionEvent actionEvent) {
 	}
 	
 	
