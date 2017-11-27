@@ -61,7 +61,6 @@
 
 							<p:outputLabel value="Natural de:" />
 							<p:selectOneMenu value="#{alunoController.entity.cidade}" styleClass="m-select">
-								<f:converter converterId="cidadeConverter" />
 								<f:selectItem itemLabel="Selecione uma cidade ..." />
 								<f:selectItems value="#{alunoController.listaCidade}" var="o"
 									itemLabel="#{o.nome}" itemValue="#{o}" />

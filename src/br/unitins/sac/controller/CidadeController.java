@@ -13,7 +13,9 @@ import br.unitins.frame.validation.Validation;
 import br.unitins.sac.factory.JPAFactory;
 import br.unitins.sac.listController.CidadeListController;
 import br.unitins.sac.model.Cidade;
+import br.unitins.sac.model.Estado;
 import br.unitins.sac.repository.CidadeRepository;
+import br.unitins.sac.util.Report;
 import br.unitins.sac.validation.CidadeValidation;
 
 @ManagedBean
@@ -21,6 +23,13 @@ import br.unitins.sac.validation.CidadeValidation;
 public class CidadeController extends Controller<Cidade> {
 	
 	private List<Cidade> listaCidade;
+	private Report relatorio;
+	
+	public Report getRelatorio() {
+		if (relatorio == null) 
+			relatorio = new Report("jdbc/web2", "reports", "CidadeReport");
+		return relatorio;
+	}
 
 	@Override
 	public Cidade getEntity() {
@@ -66,5 +75,10 @@ public class CidadeController extends Controller<Cidade> {
 	public void setListaCidade(List<Cidade> listaCidade) {
 		this.listaCidade = listaCidade;
 	}
+	
+	public Estado[] getListaEstado() {
+		return Estado.values();
+	}
+
 	
 }

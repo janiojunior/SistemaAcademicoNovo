@@ -10,7 +10,7 @@ import br.unitins.sac.factory.JPAFactory;
 import br.unitins.sac.model.Cidade;
 import br.unitins.sac.repository.CidadeRepository;
 
-@FacesConverter(value = "cidadeConverter", forClass = Cidade.class)
+@FacesConverter(forClass = Cidade.class)
 public class CidadeConverter implements Converter {
 
 	@Override
