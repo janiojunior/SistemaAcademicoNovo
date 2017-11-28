@@ -7,6 +7,7 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.event.ActionEvent;
 import javax.persistence.EntityManager;
 
+import br.unitins.frame.application.Util;
 import br.unitins.frame.controller.Controller;
 import br.unitins.frame.validation.Validation;
 import br.unitins.sac.factory.JPAFactory;
@@ -45,6 +46,11 @@ public class AlunoController extends Controller<Aluno> {
 		super.clean(actionEvent);
 		setListaAluno(null);
 		setListaCidade(null);
+	}
+	
+	public void teste() {
+		Util.redirectNewPage("alunoReport");
+		
 	}
 
 	@Override

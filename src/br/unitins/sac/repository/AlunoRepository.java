@@ -33,4 +33,18 @@ public class AlunoRepository extends Repository<Aluno>{
 
 	}
 	
+	@SuppressWarnings("unchecked")
+	public List<Aluno> bucarPorCidade(Integer id) {
+		
+		Query query = geEntityManager().createQuery("Select a From Aluno a Where a.cidade.id = ?1 Order by a.nome ");
+		query.setParameter(1, id);
+		List<Aluno> lista = query.getResultList();
+		
+		if (lista == null)
+			lista = new ArrayList<Aluno>();
+		
+		return lista;
+
+	}
+	
 }
