@@ -37,15 +37,6 @@ public class GerarRelatorio {
 			return (java.sql.Connection) ds.getConnection();
 	}
  
-	// Método para ser executado em JSE
-	public static void main(String[] args) {
-		System.out.println("Inicio");
-		GerarRelatorio geraRelatorio = new GerarRelatorio();
-//		String path = "E:/Java/Eclipse/workspace02/JasperReportsWeb/WebContent/relatorios/";
-//		geraRelatorio.gerarPDF(path);
-		geraRelatorio.gerarPDF();
-		System.out.println("Fim");
-	}
  
 	public byte[] gerarPDF() {
 		byte[] retorno = null;

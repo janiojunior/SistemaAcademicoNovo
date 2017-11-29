@@ -40,10 +40,8 @@ public class RelatorioAlunoController  {
 	}
 	
 	public void imprimir() {
-		Util.redirect("alunoReport");
-		
+		Util.redirectNewPage("alunoReport?ID_CIDADE="+getCidade().getId());
 	}
-	
 
 	public void setListaAluno(List<Aluno> listaAluno) {
 		this.listaAluno = listaAluno;

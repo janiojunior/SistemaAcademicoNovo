@@ -12,53 +12,87 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import br.unitins.sac.factory.JPAFactory;
-
 public abstract class ReportServlet extends HttpServlet {
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        try {
-            String nome = request.getServletContext().getRealPath("/WEB-INF/reports/AlunoReport.jasper");
-            
-            EntityManager em = JPAFactory.getEntityManager();
-            em.getTransaction().begin();
-   
-            Connection connection = em.unwrap(Connection.class);
-        
-            Map<String, Object> parametros = new HashMap<String, Object>();
+	public abstract String getArquivoJasper();
 
-            GeradorRelatorio gerador = new GeradorRelatorio(nome, parametros, connection);
-            gerador.gerarPDFParaOutputStream(response.getOutputStream());
-            
-            em.getTransaction().commit();
-            if (!connection.isClosed())
-            		connection.close();
-        } catch (SQLException e) {
-            throw new ServletException(e);
-        }   
-    }
-    
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	public abstract HashMap<String, Class<?>> getParametros();
 
-        try {
-            String nome = request.getServletContext().getRealPath("/WEB-INF/reports/AlunoReport.jasper");
-            
-            EntityManager em = JPAFactory.getEntityManager();
-            em.getTransaction().begin();
-   
-            Connection connection = em.unwrap(Connection.class);
-        
-            Map<String, Object> parametros = new HashMap<String, Object>();
+	public abstract EntityManager getEntityManager();
 
-            GeradorRelatorio gerador = new GeradorRelatorio(nome, parametros, connection);
-            gerador.gerarPDFParaOutputStream(response.getOutputStream());
-            
-            em.getTransaction().commit();
-            if (!connection.isClosed())
-            		connection.close();
-        } catch (SQLException e) {
-            throw new ServletException(e);
-        }         
-    }
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		try {
+			String nome = request.getServletContext().getRealPath("/reports/" + getArquivoJasper());
+
+			EntityManager em = getEntityManager();
+			em.getTransaction().begin();
+			Connection connection = em.unwrap(Connection.class);
+
+			// Adicionando os parâmetros
+			Map<String, Object> parametros = new HashMap<String, Object>();
+			HashMap<String, Class<?>> listaParametros = getParametros();
+			for (String key : listaParametros.keySet()) {
+				if (!request.getParameter(key).equals("null"))
+					if (listaParametros.get(key).getName().equals("java.lang.Integer"))
+						parametros.put(key, new Integer(request.getParameter(key)));
+					else if (listaParametros.get(key).toString().contains("java.lang.String"))
+						parametros.put(key, new String(request.getParameter(key)));
+					else if (listaParametros.get(key).toString().contains("java.lang.Boolean"))
+						parametros.put(key, new Boolean(request.getParameter(key)));
+					else if (listaParametros.get(key).toString().contains("java.lang.Float"))
+						parametros.put(key, new Float(request.getParameter(key)));
+					else if (listaParametros.get(key).toString().contains("java.lang.Double"))
+						parametros.put(key, new Double(request.getParameter(key)));
+
+			}
+
+			GeradorRelatorio gerador = new GeradorRelatorio(nome, parametros, connection);
+			gerador.gerarPDFParaOutputStream(response.getOutputStream());
+
+			em.getTransaction().commit();
+			if (!connection.isClosed())
+				connection.close();
+		} catch (SQLException e) {
+			throw new ServletException(e);
+		}
+	}
+
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		try {
+			String nome = request.getServletContext().getRealPath("/reports/" + getArquivoJasper());
+
+			EntityManager em = getEntityManager();
+			em.getTransaction().begin();
+			Connection connection = em.unwrap(Connection.class);
+
+			// Adicionando os parâmetros
+			Map<String, Object> parametros = new HashMap<String, Object>();
+			HashMap<String, Class<?>> listaParametros = getParametros();
+			for (String key : listaParametros.keySet()) {
+				if (listaParametros.get(key).toString().contains("java.lang.Integer"))
+					parametros.put(key, new Integer(request.getParameter(key)));
+				else if (listaParametros.get(key).toString().contains("java.lang.String"))
+					parametros.put(key, new String(request.getParameter(key)));
+				else if (listaParametros.get(key).toString().contains("java.lang.Boolean"))
+					parametros.put(key, new Boolean(request.getParameter(key)));
+				else if (listaParametros.get(key).toString().contains("java.lang.Float"))
+					parametros.put(key, new Float(request.getParameter(key)));
+				else if (listaParametros.get(key).toString().contains("java.lang.Double"))
+					parametros.put(key, new Double(request.getParameter(key)));
+
+			}
+
+			GeradorRelatorio gerador = new GeradorRelatorio(nome, parametros, connection);
+			gerador.gerarPDFParaOutputStream(response.getOutputStream());
+
+			em.getTransaction().commit();
+			if (!connection.isClosed())
+				connection.close();
+		} catch (SQLException e) {
+			throw new ServletException(e);
+		}
+	}
 }

@@ -18,7 +18,7 @@ public class Cidade extends Model<Cidade> {
 	@SequenceGenerator(name = "seqidcidade", sequenceName = "seqidcidade", allocationSize = 1)
 	private Integer id;
 	private String nome;
-//	private Estado estado;
+	private Estado estado;
 
 	@Override
 	public Integer getId() {
@@ -38,12 +38,12 @@ public class Cidade extends Model<Cidade> {
 		this.nome = nome;
 	}
 
-//	public Estado getEstado() {
-//		return estado;
-//	}
-//
-//	public void setEstado(Estado estado) {
-//		this.estado = estado;
-//	}
+	public Estado getEstado() {
+		return estado;
+	}
+
+	public void setEstado(Estado estado) {
+		this.estado = estado;
+	}
 
 }
